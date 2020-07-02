@@ -1,0 +1,51 @@
+---
+
+- name: check the VAR_Zabbix_Agent_gathering_dest
+  fail:
+    msg: "VAR_Zabbix_Agent_gathering_dest can not be NULL"
+  when: VAR_Zabbix_Agent_gathering_dest == "" or VAR_Zabbix_Agent_gathering_dest == None
+
+# check Zabbix-agent installed
+- name: Check Zabbix-agent is already installed
+  block:
+  - name: Determine if the parameter VAR_Zabbix40AG_WIN_path is correct
+    win_stat: path="{{ VAR_Zabbix40AG_WIN_path }}"
+    register: status
+
+  - name: Promt error message about VAR_Zabbix40AG_WIN_path
+    fail:
+      msg: "{{ VAR_Zabbix40AG_WIN_path }} does not exist"
+    when: not status.stat.exists
+
+  - name: Check zabbix_agentd.win.conf is exists
+    win_stat: path="{{ VAR_Zabbix40AG_WIN_path }}\\conf\\zabbix_agentd.win.conf"
+    register: status
+
+  - name: Prompt error message about zabbix_agentd.win.conf
+    fail:
+      msg: "{{ VAR_Zabbix40AG_WIN_path }} does not exist"
+    when: not status.stat.exists
+
+- name: import roles
+  import_role:
+    name: '{{ playbook_dir }}/roles/gathering'
+  vars:
+    VAR_gathering_definition_role_path: '{{ playbook_dir }}/roles/Zabbix40_Agent_gathering_windows'
+    i_gathering_label: 'Zabbix40_Agent_gathering_windows'
+
+- name: Copy data
+  copy:
+    src: "{{ gathered_data_dest }}/"
+    dest: "{{ VAR_Zabbix_Agent_gathering_dest }}/{{ inventory_hostname }}/Zabbix40_Agent_gathering_windows"
+  delegate_to: localhost
+  become: no
+
+- name: create the input_parameter.json for zabbix-agent install
+  template:
+    src: "{{ item }}.j2"
+    dest: "{{ VAR_Zabbix_Agent_gathering_dest }}/{{ inventory_hostname }}/Zabbix40_Agent_gathering_windows/{{ item }}"
+  delegate_to: localhost
+  with_items:
+    - "input_parameter"
+    - "input_parameter.json"
+  become: no

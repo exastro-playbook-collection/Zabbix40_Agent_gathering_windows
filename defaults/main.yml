@@ -1,0 +1,20 @@
+---
+VAR_Zabbix_Agent_gathering_dest: "{{ playbook_dir }}/_gathered_data"
+
+
+VAR_Zabbix40AG_WIN_path: "C:\\Program Files\\zabbix_agent"
+VAR_Zabbix40AG_WIN_localpkg_src: "/tmp"
+VAR_Zabbix40AG_WIN_localpkg_dst: "C:\\temp"
+
+VAR_Zabbix40AG_WIN_APITempPath: "C:\\temp\\zbx_api"
+VAR_Zabbix40AG_WIN_Username: Admin
+VAR_Zabbix40AG_WIN_Password: zabbix
+VAR_Zabbix40AG_WIN_ServerAddress: http://192.168.1.1:80/zabbix/
+VAR_Zabbix40AG_WIN_Hostname: ""
+VAR_Zabbix40AG_WIN_DisplayName: ""
+VAR_Zabbix40AG_WIN_HostIP: ""
+VAR_Zabbix40AG_WIN_AgentPort: 10050
+VAR_Zabbix40AG_WIN_SnmpPort: 161
+VAR_Zabbix40AG_WIN_HostGroups:
+  - Windows servers
+VAR_Zabbix40AG_WIN_Templates: []

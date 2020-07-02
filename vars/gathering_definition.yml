@@ -1,0 +1,5 @@
+---
+command:
+  - cat '{{ VAR_Zabbix40AG_WIN_path }}\conf\zabbix_agentd.win.conf'
+  - (gwmi win32_service|?{$_.name -eq "Zabbix Agent"}).startmode
+  - Get-Service "Zabbix Agent"

@@ -1,0 +1,11 @@
+---
+- name: Remove old data
+  file:
+    path: "{{ VAR_Zabbix_Agent_gathering_dest }}/{{ inventory_hostname }}/Zabbix40_Agent_gathering_windows"
+    state: absent
+  delegate_to: localhost
+  become: no
+
+- name: include tasks
+  include_tasks: gather.yml
+
